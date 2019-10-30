@@ -47,10 +47,10 @@ resource "google_compute_global_forwarding_rule" "https" {
 }
 
 resource "google_compute_target_https_proxy" "default" {
-  project = var.project
-  count   = var.enable_ssl ? 1 : 0
-  name    = "${var.name}-https-proxy"
-  url_map = google_compute_url_map.urlmap.self_link
+  project          = var.project
+  count            = var.enable_ssl ? 1 : 0
+  name             = "${var.name}-https-proxy"
+  url_map          = google_compute_url_map.urlmap.self_link
   ssl_certificates = var.ssl_certificates
 }
 
@@ -93,10 +93,10 @@ resource "google_compute_backend_service" "workers" {
 
   backend {
     description = "instance groups used as backend"
-    group = var.backends
+    group       = var.backends
   }
 
-  health_checks  = ["${element(compact(concat(google_compute_health_check.tcp.*.self_link, google_compute_health_check.http.*.self_link, google_compute_health_check.https.*.self_link)), 0)}"]
+  health_checks = ["${element(compact(concat(google_compute_health_check.tcp.*.self_link, google_compute_health_check.http.*.self_link, google_compute_health_check.https.*.self_link)), 0)}"]
 
   depends_on = [var.backends]
 }
@@ -106,7 +106,7 @@ resource "google_compute_backend_service" "workers" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_health_check" "tcp" {
-  count   = "${var.http_health_check ||  var.https_health_check ? 0 : 1}"
+  count   = "${var.http_health_check || var.https_health_check ? 0 : 1}"
   project = "${var.project}"
   name    = "${var.name}-external-health-check"
 
@@ -121,7 +121,7 @@ resource "google_compute_health_check" "http" {
   name    = "${var.name}-external-health-check"
 
   http_health_check {
-    port = "${var.health_port}"
+    port         = "${var.health_port}"
     request_path = "${var.health_path}"
   }
 }
@@ -132,7 +132,7 @@ resource "google_compute_health_check" "https" {
   name    = "${var.name}-external-health-check"
 
   https_health_check {
-    port = "${var.health_port}"
+    port         = "${var.health_port}"
     request_path = "${var.health_path}"
   }
 }

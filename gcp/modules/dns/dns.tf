@@ -40,11 +40,11 @@ variable "dns_record_ttl" {
 # ------------------------------------------------------------------------------
 
 resource "google_dns_record_set" "dns" {
-  project = var.project
-  name = "${var.custom_domain_name}."
-  type = "A"
-  ttl  = var.dns_record_ttl
-  managed_zone = var.dns_managed_zone_name 
-  rrdatas = var.public_address
+  project      = var.project
+  name         = "${var.custom_domain_name}."
+  type         = "A"
+  ttl          = var.dns_record_ttl
+  managed_zone = var.dns_managed_zone_name
+  rrdatas      = var.public_address
 }
 

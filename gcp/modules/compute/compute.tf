@@ -16,7 +16,7 @@ variable "num" {
 }
 
 variable "template" {
-  type    = "string"
+  type = "string"
 }
 
 // MAIN CODE

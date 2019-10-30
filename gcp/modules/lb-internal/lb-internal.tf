@@ -96,7 +96,7 @@ variable ip_protocol {
 // MAIN CODE
 
 resource "google_compute_forwarding_rule" "default" {
-  provider = "google-beta"
+  provider              = "google-beta"
   project               = "${var.project}"
   name                  = "${var.name}-internal-loadbalancer"
   region                = "${var.region}"
@@ -118,13 +118,13 @@ resource "google_compute_region_backend_service" "default" {
   session_affinity = "${var.session_affinity}"
   backend {
     description = "instance groups used as backend"
-    group = var.backends
+    group       = var.backends
   }
-  health_checks    = ["${element(compact(concat(google_compute_health_check.internal_tcp.*.self_link, google_compute_health_check.internal_http.*.self_link, google_compute_health_check.internal_https.*.self_link)), 0)}"]
+  health_checks = ["${element(compact(concat(google_compute_health_check.internal_tcp.*.self_link, google_compute_health_check.internal_http.*.self_link, google_compute_health_check.internal_https.*.self_link)), 0)}"]
 }
 
 resource "google_compute_health_check" "internal_tcp" {
-  count   = "${var.http_health_check ||  var.https_health_check ? 0 : 1}"
+  count   = "${var.http_health_check || var.https_health_check ? 0 : 1}"
   project = "${var.project}"
   name    = "${var.name}-internal-health-check"
 
@@ -139,7 +139,7 @@ resource "google_compute_health_check" "internal_http" {
   name    = "${var.name}-internal-health-check"
 
   http_health_check {
-    port = "${var.health_port}"
+    port         = "${var.health_port}"
     request_path = "${var.health_path}"
   }
 }
@@ -150,7 +150,7 @@ resource "google_compute_health_check" "internal_https" {
   name    = "${var.name}-internal-health-check"
 
   https_health_check {
-    port = "${var.health_port}"
+    port         = "${var.health_port}"
     request_path = "${var.health_path}"
   }
 }
@@ -158,7 +158,7 @@ resource "google_compute_health_check" "internal_https" {
 resource "google_compute_firewall" "default-internal-loadbalancer" {
   project = "${var.project}"
   name    = "${var.name}-internal-loadbalancer"
-  
+
   network = "${var.network}"
 
   allow {

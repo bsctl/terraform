@@ -24,7 +24,7 @@ variable "custom_domain_name" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_ssl_certificate" "certificate" {
-  project = var.project
+  project     = var.project
   name_prefix = var.name
   description = "SSL Certificate"
   private_key = join("", tls_private_key.private_key.*.private_key_pem)

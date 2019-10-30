@@ -13,12 +13,12 @@ variable "subnet" {
 }
 
 variable "machine_type" {
-  type = "string"
+  type    = "string"
   default = "f1-micro"
 }
 
 variable "image" {
-  type = "string"
+  type    = "string"
   default = "centos-cloud/centos-7"
 }
 

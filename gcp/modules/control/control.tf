@@ -12,14 +12,14 @@ variable "zone" {
 }
 
 variable "template" {
-  type    = "string"
+  type = "string"
 }
 
 // MAIN CODE
 
 resource "google_compute_instance_from_template" "masters" {
-  name           = "${var.name}-master-${count.index}"
-  zone           = var.zone
+  name                     = "${var.name}-master-${count.index}"
+  zone                     = var.zone
   source_instance_template = var.template
   lifecycle {
     create_before_destroy = true
@@ -28,7 +28,7 @@ resource "google_compute_instance_from_template" "masters" {
 }
 
 resource "google_compute_instance_group" "masters" {
-  name        = "${var.name}-control-instance-group"
+  name = "${var.name}-control-instance-group"
   zone = var.zone
   instances = [
     google_compute_instance_from_template.masters[0].self_link,

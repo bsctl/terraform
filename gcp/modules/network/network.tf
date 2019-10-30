@@ -77,8 +77,8 @@ resource "google_compute_firewall" "internal" {
     protocol = "tcp"
   }
 
-  target_tags   = [var.name]
-  source_tags   = [var.name]
+  target_tags = [var.name]
+  source_tags = [var.name]
 }
 
 
@@ -99,9 +99,9 @@ resource "google_compute_firewall" "external" {
 
 // OUTPUTS
 output "network" {
-  value       = google_compute_network.main.self_link
+  value = google_compute_network.main.self_link
 }
 
 output "subnetwork" {
-  value       = google_compute_subnetwork.main.self_link
+  value = google_compute_subnetwork.main.self_link
 }
