@@ -92,6 +92,11 @@ variable ip_protocol {
   default     = "TCP"
 }
 
+variable scheme {
+  type        = "string"
+  description = "The load balancer type. INTERNAL or EXTERNAL or INTERNAL_MANAGED"
+  default     = "TCP"
+}
 
 // MAIN CODE
 
@@ -102,7 +107,7 @@ resource "google_compute_forwarding_rule" "default" {
   region                = "${var.region}"
   network               = "${var.network}"
   subnetwork            = "${var.subnetwork}"
-  load_balancing_scheme = "INTERNAL"
+  load_balancing_scheme = "${var.scheme}"
   backend_service       = "${google_compute_region_backend_service.default.self_link}"
   service_label         = "${var.service_label == "" ? var.name : var.service_label}"
   ip_protocol           = "${var.ip_protocol}"
@@ -187,6 +192,6 @@ resource "google_compute_firewall" "default-health-check" {
 
 // OUTPUTS
 output ip_address {
-  description = "The internal IP assigned to the regional fowarding rule."
+  description = "The IP address assigned to the fowarding rule."
   value       = "${google_compute_forwarding_rule.default.ip_address}"
 }

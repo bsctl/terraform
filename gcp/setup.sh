@@ -20,7 +20,7 @@ TAG=kubernetes
 echo "Creating instances"
 for i in $(seq -w 1 $NUM); do
    NAME=$TAG$(printf "%02.f" $i)
-   ADDRESS=10.10.10.10$(expr $i)
+   ADDRESS=10.10.10.11$(expr $i)
    gcloud compute instances create $NAME \
        --async \
        --boot-disk-auto-delete \

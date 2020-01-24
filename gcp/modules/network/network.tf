@@ -17,17 +17,22 @@ variable "zone" {
 
 variable "node-cidr" {
   type    = "string"
-  default = "10.10.20.0/24"
+  default = "10.10.10.0/24"
 }
 
 variable "svc-cidr" {
   type    = "string"
-  default = "10.33.0.0/16"
+  default = "10.32.0.0/16"
 }
 
 variable "pod-cidr" {
   type    = "string"
-  default = "10.39.0.0/16"
+  default = "10.244.0.0/16"
+}
+
+variable "access_ports" {
+  type    = "list"
+  default = ["22", "80", "443"]
 }
 
 // MAIN CODE
@@ -74,7 +79,7 @@ resource "google_compute_firewall" "internal" {
   direction = "INGRESS"
 
   allow {
-    protocol = "tcp"
+    protocol = "all"
   }
 
   target_tags = [var.name]
@@ -89,13 +94,12 @@ resource "google_compute_firewall" "external" {
 
   allow {
     protocol = "tcp"
-    ports    = [22]
+    ports    = var.access_ports
   }
 
   target_tags   = [var.name]
   source_ranges = ["0.0.0.0/0"]
 }
-
 
 // OUTPUTS
 output "network" {
