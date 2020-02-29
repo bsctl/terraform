@@ -1,5 +1,5 @@
 # For openshift
-# terraform plan --var name=oscp --var env=prod --var image=openshift --var control_health_port=8443
+# terraform plan --var name=oscp --var env=prod --var image=openshift --var control_health_port=8443 --var num_workers=5
 
 // VERSION
 terraform {
@@ -131,7 +131,7 @@ module "dns-control-plane" {
   source                = "./modules/dns"
   name                  = var.name
   project               = var.project
-  custom_domain_name    = "${var.name}.${var.domain_name}"
+  custom_domain_name    = "master.${var.domain_name}"
   dns_managed_zone_name = var.managed_zone_name
   public_address        = module.address-masters.address
 }
